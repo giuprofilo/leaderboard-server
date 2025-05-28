@@ -8,7 +8,7 @@ export class User {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
 
   @Column()
@@ -17,7 +17,7 @@ export class User {
   @Column()
   telefone: string;
 
-  @Column()
+  @Column({ unique: true })
   nomeUsuario: string;
 
   @Column({ default: true })

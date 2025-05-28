@@ -1,10 +1,31 @@
-import { IsEmail, IsNotEmpty, Length } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  Matches,
+  MinLength,
+  IsString,
+  IsBoolean,
+  IsOptional,
+} from 'class-validator';
 
 export class CreateUserDto {
-  @IsNotEmpty({ message: 'O nome é obrigatório' })
-  @Length(2, 100, { message: 'O nome deve ter entre 2 e 100 caracteres' })
-  nome: string;
-
-  @IsEmail({}, { message: 'E-mail inválido' })
+  @IsEmail({}, { message: 'O email informado não é válido' })
   email: string;
+
+  @IsNotEmpty()
+  @MinLength(8)
+  @Matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-])/, {
+    message:
+      'A senha deve ter pelo menos 8 caracteres, uma maiúscula, uma minúscula, um número e um caractere especial',
+  })
+  password: string;
+  @IsString()
+  telefone: string;
+
+  @IsString()
+  nomeUsuario: string;
+
+  @IsOptional()
+  @IsBoolean()
+  isActive?: boolean;
 }

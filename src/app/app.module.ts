@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { UserModule } from '../user/user.module';
 import { User } from '../user/user.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     }),
 
     UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

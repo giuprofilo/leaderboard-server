@@ -1,7 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/user/user.entity';
 import { Repository } from 'typeorm';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
 export class UserService {
@@ -22,8 +27,24 @@ export class UserService {
     return user;
   }
 
-  async create(user: User): Promise<User> {
-    return await this.usersRepository.save(user);
+  async create(createUserDto: CreateUserDto): Promise<User> {
+    const existingUser = await this.usersRepository.findOneBy({
+      email: createUserDto.email,
+    });
+
+    if (existingUser) {
+      throw new BadRequestException('Este e-mail já está em uso');
+    }
+
+    const existingUsername = await this.usersRepository.findOneBy({
+      nomeUsuario: createUserDto.nomeUsuario,
+    });
+
+    if (existingUsername) {
+      throw new BadRequestException('Este nome de usuário já está em uso');
+    }
+    const user = this.usersRepository.create(createUserDto);
+    return this.usersRepository.save(user);
   }
 
   async remove(id: number): Promise<void> {
@@ -33,5 +54,9 @@ export class UserService {
         `Usuário com o ID ${id} não encontrado para exclusão`,
       );
     }
+  }
+
+  async findByEmail(email: string): Promise<User | null> {
+    return await this.usersRepository.findOneBy({ email });
   }
 }
