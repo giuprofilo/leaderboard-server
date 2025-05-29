@@ -1,12 +1,4 @@
-import {
-  Body,
-  BadRequestException,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from 'src/user/user.entity';
@@ -31,13 +23,10 @@ export class UserController {
 
   @Post('signup')
   async signup(@Body() createUserDto: CreateUserDto): Promise<User> {
-    const { email, password } = createUserDto;
-
-    if (!email || !password) {
-      throw new BadRequestException('Por favor, envie um email e uma senha');
-    }
-
-    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+    const hashedPassword = await bcrypt.hash(
+      createUserDto.password,
+      SALT_ROUNDS,
+    );
 
     const user = await this.userService.create({
       ...createUserDto,

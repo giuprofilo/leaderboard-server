@@ -1,13 +1,8 @@
-import {
-  BadRequestException,
-  Body,
-  Controller,
-  Post,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Body, Controller, Post, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'src/user/user.service';
 import * as bcrypt from 'bcrypt';
+import { LoginDto } from './dto/login.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -17,11 +12,8 @@ export class AuthController {
   ) {}
 
   @Post('login')
-  async login(@Body() loginDto: { email: string; password: string }) {
+  async login(@Body() loginDto: LoginDto) {
     const { email, password } = loginDto;
-    if (!email || !password) {
-      throw new BadRequestException('Por favor, envie email e senha');
-    }
 
     const user = await this.userService.findByEmail(email);
 
