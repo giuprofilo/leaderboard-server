@@ -1,0 +1,33 @@
+services:
+  mysql:
+    image: mysql:8.3
+    container_name: leaderboard-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+
+  api:
+    build: .
+    container_name: leaderboard-api
+    depends_on:
+      - mysql
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      DB_HOST: mysql # service name in docker-compose
+    command: npm run start:prod
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+volumes:
+  db-data:
