@@ -85,7 +85,7 @@ export function createDummyUsers(numberOfUsers: number): Array<CreateUserDto> {
 }
 
 /*
-  To run test this script uncomment line 100 and run in
+  To run test this script uncomment line 94 and run in
   your cmd the command:
 
   $ ts-node src/database/seeders/utils/createDummyUsers.util.ts
