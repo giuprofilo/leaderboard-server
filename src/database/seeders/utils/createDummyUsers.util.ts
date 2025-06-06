@@ -1,4 +1,4 @@
-import { CreateUserDto } from 'src/commons/dtos/create-user.dto';
+import { CreateUserDto } from '../../../common/dtos/create-user.dto';
 
 const names: string[] = [
   'João',
