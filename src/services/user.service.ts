@@ -3,6 +3,7 @@ import { UserRepository } from '../repositories/user.repository';
 import { User } from '../entities/user/user.entity';
 import { CreateUserDto } from 'src/common/dtos/create-user.dto';
 import * as bcrypt from 'bcrypt';
+import { ISeedMessage } from 'src/common/interfaces/ISeedMessage.interface';
 
 const SALT_ROUNDS = 10;
 
@@ -52,5 +53,9 @@ export class UserService {
 
   async remove(id: number): Promise<void> {
     await this.userRepository.remove(id);
+  }
+
+  async seedDummyUsers(numberOfDummyUsers: number | null): Promise<ISeedMessage> {
+    return this.seedDummyUsers(numberOfDummyUsers);
   }
 }
