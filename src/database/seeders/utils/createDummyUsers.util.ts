@@ -26,8 +26,14 @@ const surnames: string[] = [
   'Smith',
 ];
 
-export function getRandomNumber(): number {
+export function getOneRandomNumber(): number {
   return Math.floor(Math.random() * 10);
+}
+
+export function getRandomNumber(): number {
+  return +Array.from(
+    { length: getOneRandomNumber() },
+    () => getOneRandomNumber()).join().replaceAll(',', '');
 }
 
 export function getRandomCompleteName(): string {
@@ -40,31 +46,37 @@ export function getRandomCompleteName(): string {
 export function getEmailByCompleteName(completeName: string): string {
   const lowerCaseName = completeName.toLocaleLowerCase();
   const nameAndSurnamePartsArray = lowerCaseName.split(' ');
+  const randomEmail =
+    `${nameAndSurnamePartsArray[0]}.${nameAndSurnamePartsArray[1]}${getRandomNumber()}@example.com.br`;
 
-  return `${nameAndSurnamePartsArray[0]}.${nameAndSurnamePartsArray[1]}@example.com.br`;
+  return randomEmail;
 }
 
 export function getRandomPassword(userEmail: string): string {
   const userEmailPartsArray = userEmail.split('@');
-
   const randomNumbers: number[] = [];
 
   for (let i = 0; i < 5; i++) {
-    const randomNumber = getRandomNumber();
+    const randomNumber = getOneRandomNumber();
     randomNumbers.push(randomNumber);
   }
 
-  return `${userEmailPartsArray[0]}.${getRandomNumber()}#${userEmailPartsArray[1]}${randomNumbers.join('')}`;
+  return userEmailPartsArray[0] 
+    + getOneRandomNumber()
+    + "#"
+    + userEmailPartsArray[1]
+    + randomNumbers.join('');
 }
 
 export function getUserName(completeName: string): string {
   const completeNamePartsArray = completeName.split(' ');
-  return `${completeNamePartsArray[0]}.${completeNamePartsArray[1]}`;
+  return `${completeNamePartsArray[0]}.${completeNamePartsArray[1]}${getRandomNumber()}`;
 }
 
 export function createDummyUsers(numberOfUsers: number): Array<CreateUserDto> {
   const dummyUsers: CreateUserDto[] = [];
 
+  console.log("Dummy Users: creating...")
   for (let i = 0; i < numberOfUsers; i++) {
     const completeName = getRandomCompleteName();
     const email = getEmailByCompleteName(completeName);
@@ -78,9 +90,11 @@ export function createDummyUsers(numberOfUsers: number): Array<CreateUserDto> {
       telefone: '1234567890',
       nomeUsuario: userName,
     };
+
     dummyUsers.push(dummyUser);
   }
-
+  
+  console.log(`Dummy Users: create ${dummyUsers.length} users.`)
   return dummyUsers;
 }
 
