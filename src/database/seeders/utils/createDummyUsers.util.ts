@@ -31,9 +31,11 @@ export function getOneRandomNumber(): number {
 }
 
 export function getRandomNumber(): number {
-  return +Array.from(
-    { length: getOneRandomNumber() },
-    () => getOneRandomNumber()).join().replaceAll(',', '');
+  return +Array.from({ length: getOneRandomNumber() }, () =>
+    getOneRandomNumber(),
+  )
+    .join()
+    .replaceAll(',', '');
 }
 
 export function getRandomCompleteName(): string {
@@ -46,8 +48,7 @@ export function getRandomCompleteName(): string {
 export function getEmailByCompleteName(completeName: string): string {
   const lowerCaseName = completeName.toLocaleLowerCase();
   const nameAndSurnamePartsArray = lowerCaseName.split(' ');
-  const randomEmail =
-    `${nameAndSurnamePartsArray[0]}.${nameAndSurnamePartsArray[1]}${getRandomNumber()}@example.com.br`;
+  const randomEmail = `${nameAndSurnamePartsArray[0]}.${nameAndSurnamePartsArray[1]}${getRandomNumber()}@example.com.br`;
 
   return randomEmail;
 }
@@ -61,11 +62,13 @@ export function getRandomPassword(userEmail: string): string {
     randomNumbers.push(randomNumber);
   }
 
-  return userEmailPartsArray[0] 
-    + getOneRandomNumber()
-    + "#"
-    + userEmailPartsArray[1]
-    + randomNumbers.join('');
+  return (
+    userEmailPartsArray[0] +
+    getOneRandomNumber() +
+    '#' +
+    userEmailPartsArray[1] +
+    randomNumbers.join('')
+  );
 }
 
 export function getUserName(completeName: string): string {
@@ -76,7 +79,7 @@ export function getUserName(completeName: string): string {
 export function createDummyUsers(numberOfUsers: number): Array<CreateUserDto> {
   const dummyUsers: CreateUserDto[] = [];
 
-  console.log("Dummy Users: creating...")
+  console.log('Dummy Users: creating...');
   for (let i = 0; i < numberOfUsers; i++) {
     const completeName = getRandomCompleteName();
     const email = getEmailByCompleteName(completeName);
@@ -93,13 +96,13 @@ export function createDummyUsers(numberOfUsers: number): Array<CreateUserDto> {
 
     dummyUsers.push(dummyUser);
   }
-  
-  console.log(`Dummy Users: create ${dummyUsers.length} users.`)
+
+  console.log(`Dummy Users: create ${dummyUsers.length} users.`);
   return dummyUsers;
 }
 
 /*
-  To run test this script uncomment line 94 and run in
+  To run test this script uncomment line 111 and run in
   your cmd the command:
 
   $ ts-node src/database/seeders/utils/createDummyUsers.util.ts
