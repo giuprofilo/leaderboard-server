@@ -5,11 +5,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/entities/user/user.entity';
 import { UserRepository } from 'src/repositories/user.repository';
 import { userProviders } from 'src/database/providers';
+import { UserSeeder } from 'src/database/seeders/user.seed';
 
 @Global()
 @Module({
   imports: [TypeOrmModule.forFeature([User])],
-  providers: [UserService, UserRepository, ...userProviders],
+  providers: [UserService, UserRepository, UserSeeder, ...userProviders],
   controllers: [UserController],
   exports: [TypeOrmModule, UserService, UserRepository, ...userProviders],
 })
