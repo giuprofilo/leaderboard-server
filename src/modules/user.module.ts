@@ -6,10 +6,11 @@ import { User } from 'src/entities/user/user.entity';
 import { UserRepository } from 'src/repositories/user.repository';
 import { userProviders } from 'src/database/providers';
 import { UserSeeder } from 'src/database/seeders/user.seed';
+import { CloudinaryModule } from './cloudinary.module';
 
 @Global()
 @Module({
-  imports: [TypeOrmModule.forFeature([User])],
+  imports: [TypeOrmModule.forFeature([User]), CloudinaryModule],
   providers: [UserService, UserRepository, UserSeeder, ...userProviders],
   controllers: [UserController],
   exports: [TypeOrmModule, UserService, UserRepository, ...userProviders],
