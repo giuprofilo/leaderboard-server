@@ -47,7 +47,7 @@ export class UserController {
     @Body() createUserDto: CreateUserDto,
     @UploadedFile() file?: Express.Multer.File,
   ): Promise<User> {
-    return this.userService.createUserWithProfileImage(createUserDto, file);
+    return this.userService.createUserWithAvatar(createUserDto, file);
   }
 
   @UseGuards(AuthGuard('jwt'))
@@ -73,7 +73,6 @@ export class UserController {
   async seed(
     @Param('numberOfDummyUsers') numberOfDummyUsers: number,
   ): Promise<ISeedMessage> {
-    console.log(numberOfDummyUsers);
     return this.userSeed.seed(+numberOfDummyUsers);
   }
 }

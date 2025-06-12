@@ -16,10 +16,9 @@ export class UserRepository {
     );
   }
 
-  async findByUserName(nomeUsuario: string): Promise<User | undefined> {
+  async findByUsername(username: string): Promise<User | undefined> {
     return (
-      (await this.userRepository.findOne({ where: { nomeUsuario } })) ??
-      undefined
+      (await this.userRepository.findOne({ where: { username } })) ?? undefined
     );
   }
 
