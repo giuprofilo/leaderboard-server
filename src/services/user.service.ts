@@ -7,25 +7,25 @@ import { ISeedMessage } from 'src/common/interfaces/ISeedMessage.interface';
 import { CloudinaryService } from './cloudinary.service';
 
 const SALT_ROUNDS = 10;
-const DEFAULT_PROFILE_IMAGE =
+const AVATAR_IMAGE =
   'https://res.cloudinary.com/leaderboard-cloud/image/upload/v1749571270/default-pfp_wv7y98.jpg';
 @Injectable()
 export class UserService {
   constructor(
     private readonly userRepository: UserRepository,
-    private readonly clousinaryService: CloudinaryService,
+    private readonly cloudinaryService: CloudinaryService,
   ) {}
 
-  async createUserWithProfileImage(
+  async createUserWithAvatar(
     createUserDto: CreateUserDto,
     file?: Express.Multer.File,
   ): Promise<User> {
-    let profileImageUrl = DEFAULT_PROFILE_IMAGE;
+    let avatarUrl = AVATAR_IMAGE;
 
     if (file) {
       try {
-        const uploadResult = await this.clousinaryService.uploadImage(file);
-        profileImageUrl = uploadResult.secure_url;
+        const uploadResult = await this.cloudinaryService.uploadImage(file);
+        avatarUrl = uploadResult.secure_url;
       } catch (error) {
         console.error('Erro no upload da imagem:', error);
         throw new BadRequestException('Falha ao enviar imagem de perfil');
@@ -34,12 +34,12 @@ export class UserService {
 
     return this.createUser({
       ...createUserDto,
-      profileImage: profileImageUrl,
+      avatar: avatarUrl,
     });
   }
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {
-    const { email, password, nomeUsuario } = createUserDto;
+    const { email, password, username } = createUserDto;
 
     if (!email || !password) {
       throw new BadRequestException('Por favor, envie um email e uma senha.');
@@ -50,8 +50,7 @@ export class UserService {
       throw new BadRequestException('Este e-mail já está em uso');
     }
 
-    const existingUserName =
-      await this.userRepository.findByUserName(nomeUsuario);
+    const existingUserName = await this.userRepository.findByUsername(username);
     if (existingUserName) {
       throw new BadRequestException('Este nome de usuário já está em uso');
     }

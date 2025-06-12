@@ -31,12 +31,12 @@ export class CreateUserDto {
 
   @IsNotEmpty({ message: 'O nome de usuário é obrigatório' })
   @IsString()
-  nomeUsuario: string;
+  username: string;
 
   @IsOptional()
   @IsBoolean()
   isActive?: boolean;
 
   @IsOptional()
-  profileImage?: string;
+  avatar?: string;
 }

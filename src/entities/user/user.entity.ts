@@ -18,11 +18,11 @@ export class User {
   telefone: string;
 
   @Column({ unique: true })
-  nomeUsuario: string;
+  username: string;
 
   @Column({ default: true })
   isActive: boolean;
 
   @Column({ nullable: true })
-  profileImage?: string;
+  avatar?: string;
 }
