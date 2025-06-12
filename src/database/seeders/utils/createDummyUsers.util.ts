@@ -85,6 +85,7 @@ export function createDummyUsers(numberOfUsers: number): Array<CreateUserDto> {
     const email = getEmailByCompleteName(completeName);
     const username = getUserName(completeName);
     const password = getRandomPassword(email);
+    const points = getRandomNumber();
 
     const dummyUser: CreateUserDto = {
       name: completeName,
@@ -92,6 +93,7 @@ export function createDummyUsers(numberOfUsers: number): Array<CreateUserDto> {
       password,
       telefone: '1234567890',
       username,
+      points,
     };
 
     dummyUsers.push(dummyUser);
