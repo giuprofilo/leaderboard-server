@@ -24,5 +24,8 @@ export class User {
   isActive: boolean;
 
   @Column({ nullable: true })
+  points?: number;
+
+  @Column({ nullable: true })
   avatar?: string;
 }

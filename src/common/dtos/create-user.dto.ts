@@ -6,6 +6,7 @@ import {
   IsString,
   IsBoolean,
   IsOptional,
+  IsNumber,
 } from 'class-validator';
 
 export class CreateUserDto {
@@ -36,6 +37,10 @@ export class CreateUserDto {
   @IsOptional()
   @IsBoolean()
   isActive?: boolean;
+
+  @IsOptional()
+  @IsNumber()
+  points?: number;
 
   @IsOptional()
   avatar?: string;

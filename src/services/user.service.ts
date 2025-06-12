@@ -5,6 +5,7 @@ import { CreateUserDto } from 'src/common/dtos/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { ISeedMessage } from 'src/common/interfaces/ISeedMessage.interface';
 import { CloudinaryService } from './cloudinary.service';
+import { getRandomNumber } from 'src/database/seeders/utils/createDummyUsers.util';
 
 const SALT_ROUNDS = 10;
 const AVATAR_IMAGE =
@@ -34,6 +35,7 @@ export class UserService {
 
     return this.createUser({
       ...createUserDto,
+      points: createUserDto.points || getRandomNumber(),
       avatar: avatarUrl,
     });
   }
