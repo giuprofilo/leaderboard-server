@@ -47,6 +47,13 @@ export class UserService {
       throw new BadRequestException('Por favor, envie um email e uma senha.');
     }
 
+    const quantityUsers = await this.userRepository.count();
+    if (quantityUsers >= 100) {
+      throw new BadRequestException(
+        'Limite máximo de usuários criados atingido',
+      );
+    }
+
     const existingEmail = await this.userRepository.findByEmail(email);
     if (existingEmail) {
       throw new BadRequestException('Este e-mail já está em uso');
