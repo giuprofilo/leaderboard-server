@@ -18,6 +18,7 @@ import { CreateUserDto } from 'src/common/dtos/create-user.dto';
 import { UserSeeder } from 'src/database/seeders/user.seed';
 import { ISeedMessage } from 'src/common/interfaces/ISeedMessage.interface';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { getRandomNumber } from 'src/database/seeders/utils/createDummyUsers.util';
 
 @Controller('user')
 export class UserController {
@@ -44,9 +45,13 @@ export class UserController {
     }),
   )
   async signup(
-    @Body() createUserDto: CreateUserDto,
+    @Body() body: CreateUserDto,
     @UploadedFile() file?: Express.Multer.File,
   ): Promise<User> {
+    const createUserDto: CreateUserDto = {
+      ...body,
+      points: getRandomNumber(),
+    };
     return this.userService.createUserWithAvatar(createUserDto, file);
   }
 
