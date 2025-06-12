@@ -28,7 +28,12 @@ export class UserRepository {
   }
 
   async findAll(): Promise<User[]> {
-    return this.userRepository.find();
+    return this.userRepository.find({
+      order: {
+        points: 'DESC',
+        username: 'ASC',
+      },
+    });
   }
 
   async findOne(id: number): Promise<User> {
