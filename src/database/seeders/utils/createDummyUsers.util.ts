@@ -26,6 +26,9 @@ const surnames: string[] = [
   'Smith',
 ];
 
+const DEFAULT_IMAGE =
+  'https://res.cloudinary.com/leaderboard-cloud/image/upload/v1749571270/default-pfp_wv7y98.jpg';
+
 export function getOneRandomNumber(): number {
   return Math.floor(Math.random() * 10);
 }
@@ -86,6 +89,7 @@ export function createDummyUsers(numberOfUsers: number): Array<CreateUserDto> {
     const username = getUserName(completeName);
     const password = getRandomPassword(email);
     const points = getRandomNumber();
+    const avatar = DEFAULT_IMAGE;
 
     const dummyUser: CreateUserDto = {
       name: completeName,
@@ -94,6 +98,7 @@ export function createDummyUsers(numberOfUsers: number): Array<CreateUserDto> {
       telefone: '1234567890',
       username,
       points,
+      avatar,
     };
 
     dummyUsers.push(dummyUser);
