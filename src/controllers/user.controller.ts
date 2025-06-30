@@ -9,6 +9,7 @@ import {
   UseGuards,
   UseInterceptors,
   BadRequestException,
+  Query,
 } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 
@@ -57,8 +58,8 @@ export class UserController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get()
-  findAll(): Promise<User[]> {
-    return this.userService.findAll();
+  findAll(@Query('isActive') isActive: boolean): Promise<User[]> {
+    return this.userService.findAll(isActive);
   }
 
   @UseGuards(AuthGuard('jwt'))

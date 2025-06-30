@@ -78,8 +78,11 @@ export class UserService {
     return this.userRepository.findByEmail(email);
   }
 
-  async findAll(): Promise<User[]> {
-    return this.userRepository.findAll();
+  async findAll(isActive: boolean): Promise<User[]> {
+
+    if (typeof isActive != 'boolean') return this.userRepository.findAll();
+
+    return this.userRepository.findAllByIsActiveProperty(isActive);    
   }
 
   async findOne(id: number): Promise<User> {
