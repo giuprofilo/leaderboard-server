@@ -36,6 +36,18 @@ export class UserRepository {
     });
   }
 
+  async findAllByIsActiveProperty(isActive: boolean): Promise<User[]> {
+    return this.userRepository.find({
+      order: {
+        points: 'DESC',
+        username: 'ASC',
+      },
+      where: {
+        isActive
+      }
+    });
+  }
+
   async findOne(id: number): Promise<User> {
     return this.userRepository.findOneOrFail({ where: { id } });
   }
