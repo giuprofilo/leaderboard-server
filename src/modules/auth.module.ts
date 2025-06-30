@@ -9,6 +9,7 @@ import { UserModule } from 'src/modules/user.module';
 import { Module } from '@nestjs/common';
 import { AuthController } from 'src/auth/auth.controller';
 import { JwtStrategy } from 'src/auth/strategies/jwt.strategy';
+import { EmailModule } from './email.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { JwtStrategy } from 'src/auth/strategies/jwt.strategy';
     }),
     TypeOrmModule.forFeature([User]),
     UserModule,
+    EmailModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],
