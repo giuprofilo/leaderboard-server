@@ -69,6 +69,7 @@ export class UserService {
     const user = await this.userRepository.createUser({
       ...createUserDto,
       password: hashedPassword,
+      isActive: false,
     });
 
     return user;
