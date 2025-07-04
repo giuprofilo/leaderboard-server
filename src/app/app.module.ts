@@ -7,6 +7,8 @@ import { AppController } from './app.controller';
 import { typeOrmConfig } from 'src/config/typeorm.config';
 import { AuthModule } from 'src/modules/auth.module';
 import { EmailModule } from 'src/modules/email.module';
+import { CodeVerifyModule } from 'src/modules/code-verify.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -17,10 +19,10 @@ import { EmailModule } from 'src/modules/email.module';
       useFactory: typeOrmConfig,
       inject: [ConfigService],
     }),
-
     UserModule,
     AuthModule,
-    EmailModule
+    EmailModule,
+    CodeVerifyModule
   ],
   controllers: [AppController],
   providers: [AppService],
