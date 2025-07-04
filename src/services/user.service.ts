@@ -86,11 +86,11 @@ export class UserService {
     return this.userRepository.findAllByIsActiveProperty(isActive);    
   }
 
-  async findOne(id: number): Promise<User> {
+  async findOne(id: string): Promise<User> {
     return this.userRepository.findOne(id);
   }
 
-  async remove(id: number): Promise<void> {
+  async remove(id: string): Promise<void> {
     await this.userRepository.remove(id);
   }
 

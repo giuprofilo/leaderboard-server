@@ -65,13 +65,13 @@ export class UserController {
   @UseGuards(AuthGuard('jwt'))
   @Get(':id')
   findOne(@Param('id') id: string): Promise<User> {
-    return this.userService.findOne(+id);
+    return this.userService.findOne(id);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
   remove(@Param('id') id: string): Promise<void> {
-    return this.userService.remove(+id);
+    return this.userService.remove(id);
   }
 
   // @UseGuards(AuthGuard('jwt'))
