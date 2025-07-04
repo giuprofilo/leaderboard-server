@@ -1,6 +1,7 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
 import { User } from 'src/entities/user/user.entity';
+import { CodeVerify } from 'src/entities/user/code-verify.entity';
 
 export const typeOrmConfig = (
   configService: ConfigService,
@@ -11,6 +12,6 @@ export const typeOrmConfig = (
   username: configService.get('DB_USERNAME'),
   password: configService.get('DB_PASSWORD'),
   database: configService.get('DB_DATABASE'),
-  entities: [User],
+  entities: [User, CodeVerify],
   synchronize: true,
 });

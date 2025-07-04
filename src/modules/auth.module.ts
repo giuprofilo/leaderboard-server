@@ -10,6 +10,7 @@ import { Module } from '@nestjs/common';
 import { AuthController } from 'src/auth/auth.controller';
 import { JwtStrategy } from 'src/auth/strategies/jwt.strategy';
 import { EmailModule } from './email.module';
+import { CodeVerifyModule } from './code-verify.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { EmailModule } from './email.module';
     TypeOrmModule.forFeature([User]),
     UserModule,
     EmailModule,
+    CodeVerifyModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],
