@@ -1,0 +1,20 @@
+export interface IHTMLParams {
+	h3: string,
+	textButton: string,
+	persistenceLink: string,
+	enterprise: string
+}
+
+export function buildHtmlEmail(htmlParams: IHTMLParams): string {
+
+	let { h3, textButton, persistenceLink, enterprise } = htmlParams;
+
+	h3! = "Verifique-se";
+	textButton! = "Clique aqui para verificar seu email";
+	persistenceLink! = "http://localhost:4200/validation";
+	enterprise! = "Tokenlab";
+
+	let htmlEmail = `<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><html xmlns=\"http://www.w3.org/1999/xhtml\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" /><title>${h3}</title><style type=\"text/css\">body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }img { -ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; }body { margin: 0 !important; padding: 0 !important; width: 100% !important; }a[x-apple-data-detectors] {color: inherit !important;text-decoration: none !important;font-size: inherit !important;font-family: inherit !important;font-weight: inherit !important;line-height: inherit !important;}body {font-family: Arial, sans-serif;background-color: #f5f5f5;color: #333333;}.container {max-width: 300px;margin: 0 auto;padding: 20px;background-color: #ffffff;}.verify-button {display: inline-block;padding: 12px 24px;background-color: #4713d5;color: white !important;transition: all 0.3s ease;text-decoration: none;border-radius: 4px;font-weight: bold;margin: 10px 0;}.verify-button:hover {background-color: #13d54a;transform: scale(1.05);}.verify-button:active {background-color: #4713d5;transform: scale(1);}h3 {font-size: 24px;margin-bottom: 20px;color: #333333;}@media screen and (max-width: 600px) {.container {width: 100% !important;}}</style></head><body style=\"margin: 0; padding: 0;\"><table role=\"presentation\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"100%\"><tr><td style=\"padding: 20px 0; background-color: #f5f5f5;\" align=\"center\"><table role=\"presentation\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"600\" style=\"background-color: #ffffff;\"><tr><td style=\"padding: 40px 30px; text-align: center;\"><h3>Verifique-se</h3><a href=\"${persistenceLink}\" class=\"verify-button\" target=\"_blank\">${textButton}</a><p style=\"margin-top: 20px; color: #777777;\">Se o botão não funcionar, copie e cole o seguinte link no seu navegador:<br/>${persistenceLink}</p></td></tr></table><table role=\"presentation\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"600\"><tr><td style=\"padding: 20px; text-align: center; color: #777777; font-size: 12px;\">© 2025 ${enterprise}. Todos os direitos reservados.</td></tr></table></td></tr></table></body></html>`
+
+	return htmlEmail;
+}
