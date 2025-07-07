@@ -79,10 +79,9 @@ export class UserService {
   }
 
   async findAll(isActive: boolean): Promise<User[]> {
-
     if (typeof isActive != 'boolean') return this.userRepository.findAll();
 
-    return this.userRepository.findAllByIsActiveProperty(isActive);    
+    return this.userRepository.findAllByIsActiveProperty(isActive);
   }
 
   async findOne(id: number): Promise<User> {
@@ -91,6 +90,16 @@ export class UserService {
 
   async remove(id: number): Promise<void> {
     await this.userRepository.remove(id);
+  }
+
+  async updateUserPoints(id: number, points: number): Promise<User> {
+    const user = await this.userRepository.findOne(id);
+
+    if (!user) {
+      throw new BadRequestException('Usuário não encontrado');
+    }
+
+    return this.userRepository.updatePoints(id, points);
   }
 
   async seedDummyUsers(
