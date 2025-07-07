@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../services/user.service';
 import * as bcrypt from 'bcrypt';
 import { User } from '../entities/user/user.entity';
-import { buildHtmlEmail, IHTMLParams } from './utils/emailBodyBuilder';
+import { buildHtmlEmail, IHTMLParams } from './utils/emailBodyBuilder.util';
 import { EmailService } from './email.service';
 
 @Injectable()
