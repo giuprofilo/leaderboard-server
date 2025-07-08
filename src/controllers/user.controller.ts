@@ -10,6 +10,8 @@ import {
   UseInterceptors,
   BadRequestException,
   Query,
+  Patch,
+  Req,
 } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 
@@ -20,6 +22,8 @@ import { UserSeeder } from 'src/database/seeders/user.seed';
 import { ISeedMessage } from 'src/common/interfaces/ISeedMessage.interface';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { getRandomNumber } from 'src/database/seeders/utils/createDummyUsers.util';
+import { UpdatePointsDto } from 'src/common/dtos/update-points.dto';
+import { AuthRequest } from 'src/common/interfaces/auth-request.interface';
 
 @Controller('user')
 export class UserController {
@@ -72,6 +76,16 @@ export class UserController {
   @Delete(':id')
   remove(@Param('id') id: string): Promise<void> {
     return this.userService.remove(+id);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Patch('points')
+  async updatePoints(
+    @Req() req: AuthRequest,
+    @Body() updatePointsDto: UpdatePointsDto,
+  ): Promise<User> {
+    const userId = req.user.id;
+    return this.userService.updateUserPoints(+userId, updatePointsDto.points);
   }
 
   // @UseGuards(AuthGuard('jwt'))

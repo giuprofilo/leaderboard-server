@@ -43,8 +43,8 @@ export class UserRepository {
         username: 'ASC',
       },
       where: {
-        isActive
-      }
+        isActive,
+      },
     });
   }
 
@@ -58,5 +58,10 @@ export class UserRepository {
 
   async count(): Promise<number> {
     return this.userRepository.count();
+  }
+
+  async updatePoints(id: number, points: number): Promise<User> {
+    await this.userRepository.update(id, { points });
+    return this.findOne(id);
   }
 }
