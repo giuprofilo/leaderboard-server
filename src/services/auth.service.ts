@@ -7,7 +7,7 @@ import { buildHtmlEmail, IHTMLParams } from './utils/emailBodyBuilder.util';
 import { EmailService } from './email.service';
 import { SendEmailDTO } from '../common/dtos/send-email.dto';
 import { CodeVerifyService } from './code-verify.service';
-import { getRandomCode } from './utils/getRandomVerifyCode.util';
+import { getRandomCode } from './utils/getRandomCodeVerify.util';
 
 @Injectable()
 export class AuthService {
