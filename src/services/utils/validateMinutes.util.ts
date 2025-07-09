@@ -1,18 +1,15 @@
 import { NotFoundException } from "@nestjs/common";
 
-const RANGE_MINUTES: number = 15;
-
-export function validateMinutes(dateParam: Date): boolean {
-
-	  if (!dateParam) {
+export function validateMinutes(dateParam: Date, rangeMinutes: number): boolean {
+	if (!dateParam) {
     throw new NotFoundException('Parâmetro inválido');
   }
-  
+  const EXPIRATION_TIME: number = rangeMinutes;
   const now = new Date();
   const date = new Date(dateParam);
-  const diffInMs = now.getTime() - date.getTime();
+  const diffInMs = Math.abs(now.getTime() - date.getTime());
   
-  const fifteenMinutesInMs = RANGE_MINUTES * 60 * 1000;
+  const expirationTimeInMs = EXPIRATION_TIME * 60 * 1000;
   
-	return diffInMs < fifteenMinutesInMs;
+	return diffInMs < expirationTimeInMs;
 }
