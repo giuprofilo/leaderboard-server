@@ -4,12 +4,14 @@ import { Repository } from 'typeorm';
 import { CodeVerify } from '../entities/user/code-verify.entity';
 import { CreateCodeVerifyDTO } from '../common/dtos/create-code-verify.dto';
 import { validateMinutes } from './utils/validateMinutes.util';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class CodeVerifyService {
   constructor(
     @InjectRepository(CodeVerify)
     private readonly codeVerifyRepository: Repository<CodeVerify>,
+    private readonly configService: ConfigService
   ) {}
 
   async create(createCodeVerifyDto: CreateCodeVerifyDTO): Promise<CodeVerify> {
@@ -30,7 +32,8 @@ export class CodeVerifyService {
     await this.codeVerifyRepository.delete(id);
   }
 
-  validateCodeVerify(codeVerify: CodeVerify): Boolean {
-    return validateMinutes(codeVerify.createdAt);
+  validateCodeVerifyExpirationTime(codeVerify: CodeVerify): Boolean {
+    const expirationTime: number = +this.configService.get('EXPIRATION_TIME') || 5;
+    return validateMinutes(codeVerify.createdAt, expirationTime);
   }
 }
