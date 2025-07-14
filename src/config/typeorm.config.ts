@@ -13,5 +13,7 @@ export const typeOrmConfig = (
   password: configService.get('DB_PASSWORD'),
   database: configService.get('DB_DATABASE'),
   entities: [User, CodeVerify],
+  timezone: configService.get('TIMEZONE'),
   synchronize: true,
-});
+}
+);
