@@ -19,11 +19,11 @@ export class UserRepository {
     return await this.codeVerifyRepository.findOne({ where: { id } })
   }
 
-	async findByUSerId(userId: string): Promise<CodeVerify | null> {
-		return (
-			await this.codeVerifyRepository.findOne({ where: { user: { id: userId } } })
-			?? null
-		);
+  async findByUserId(userId: string): Promise<CodeVerify | null> {
+    return this.codeVerifyRepository.findOne({ 
+      where: { user: { id: userId } },
+      relations: ['user']
+    });
   }
 
 	async removeCodeVerify(id: string): Promise<void> {

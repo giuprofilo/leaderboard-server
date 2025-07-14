@@ -21,7 +21,6 @@ export class AuthService {
   ) {}
 
   async buildEmail(email: string, userId:string): Promise<SendEmailDTO> {
-
     const codeVerify = await this.codeVerifyService.findByUserId(userId);
     if (!codeVerify) {
       throw new NotFoundException('Sua verificação falhou. Faça login novamente.')
@@ -49,27 +48,29 @@ export class AuthService {
     const codeVerify = await this.codeVerifyService.findByUserId(userId);
 
     if(codeVerify) {
-      const verifyCodeIsValid = this.codeVerifyService.validateCodeVerifyExpirationTime(codeVerify!);
-      if (!verifyCodeIsValid) {
-        this.codeVerifyService.remove(codeVerify.id);
-
+      const verifyCodeIsValid = this.codeVerifyService.validateCodeVerifyExpirationTime(codeVerify);
+      if (verifyCodeIsValid === false) {
+        await this.codeVerifyService.remove(codeVerify.id);
         throw new ForbiddenException(
           'Código de verificação expirado. Por favor, faça login novamente para receber um novo código.'
         );
       }
+      throw new ForbiddenException(
+        'Código de verificação enviado. Por favor, verique a caixa de entrada do seu email.'
+      );
     }
   }
 
-  async validateUser(email: string, password: string): Promise<User> {
+  async getValidUser(email: string, password: string): Promise<User> {
     const user = await this.userService.findByEmail(email);
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
       throw new UnauthorizedException('Email ou senha incorretos');
     }
 
-    await this.checkIfCodeVerifyUserIsValid(user.id);
-
     if (!user?.isActive) {
+
+      await this.checkIfCodeVerifyUserIsValid(user.id);
       const code: string = getRandomCode();
       await this.codeVerifyService.create({
         code,
@@ -86,7 +87,7 @@ export class AuthService {
   }
 
   async login(email: string, password: string) {
-    const user = await this.validateUser(email, password);
+    const user = await this.getValidUser(email, password);
     const payload = { sub: user.id, email: user.email };
     const token = this.jwtService.sign(payload);
 

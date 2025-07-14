@@ -14,7 +14,7 @@ export class CodeVerifyService {
     private readonly configService: ConfigService
   ) {}
 
-  async create(createCodeVerifyDto: CreateCodeVerifyDTO): Promise<CodeVerify> {
+  async create(createCodeVerifyDto: CreateCodeVerifyDTO): Promise<CodeVerify> {  
     const codeVerify = this.codeVerifyRepository.create({
       code: createCodeVerifyDto.code,
       user: { id: createCodeVerifyDto.userId }
@@ -25,6 +25,7 @@ export class CodeVerifyService {
   async findByUserId(userId: string): Promise<CodeVerify | null> {
     return await this.codeVerifyRepository.findOne({
       where: { user: { id: userId } },
+      relations: ['user']
     });
   }
 
@@ -34,6 +35,7 @@ export class CodeVerifyService {
 
   validateCodeVerifyExpirationTime(codeVerify: CodeVerify): Boolean {
     const expirationTime: number = +this.configService.get('EXPIRATION_TIME') || 5;
-    return validateMinutes(codeVerify.createdAt, expirationTime);
+    const timezoneHours: number = +this.configService.get('TIMEZONE_HOURS') || 3;
+    return validateMinutes(codeVerify.createdAt, expirationTime, timezoneHours);
   }
 }
