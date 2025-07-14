@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { User } from '../entities/user/user.entity';
 import { USER_REPOSITORY } from 'src/database/providers/constants';
 
@@ -58,5 +58,10 @@ export class UserRepository {
 
   async count(): Promise<number> {
     return this.userRepository.count();
+  }
+
+  async update(userParam: User): Promise<UpdateResult> {
+    const updatedUser = await this.userRepository.update(userParam.id, userParam);
+    return updatedUser;
   }
 }
