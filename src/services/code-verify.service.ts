@@ -38,4 +38,11 @@ export class CodeVerifyService {
     const timezoneHours: number = +this.configService.get('TIMEZONE_HOURS') || 3;
     return validateMinutes(codeVerify.createdAt, expirationTime, timezoneHours);
   }
+
+  async findByCode(code: string): Promise<CodeVerify | null> {
+    return await this.codeVerifyRepository.findOne({
+      where: { code }
+    });
+  }
+
 }
