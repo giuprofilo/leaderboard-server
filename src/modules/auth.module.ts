@@ -7,7 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/entities/user/user.entity';
 import { UserModule } from 'src/modules/user.module';
 import { Module } from '@nestjs/common';
-import { AuthController } from 'src/auth/auth.controller';
+import { AuthController } from 'src/controllers/auth.controller';
 import { JwtStrategy } from 'src/auth/strategies/jwt.strategy';
 import { EmailModule } from './email.module';
 import { CodeVerifyModule } from './code-verify.module';
