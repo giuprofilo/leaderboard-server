@@ -9,7 +9,7 @@ export class AuthController {
   @Post('login')
   async login(@Body() loginDto: LoginDto) {
     const { email, password } = loginDto;
-    return this.authService.login(email, password);
+    return await this.authService.login(email, password);
   }
 
   @Get('validateUserByEmail')
@@ -17,6 +17,6 @@ export class AuthController {
     @Query('codeVerify') codeVerify: string,
     @Query('userEmail') userEmail: string,
   ) {
-    return this.authService.validateUserByEmail(codeVerify, userEmail);
+    return await this.authService.validateUserByEmail(codeVerify, userEmail);
   }
 }
