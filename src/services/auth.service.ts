@@ -26,7 +26,10 @@ export class AuthService {
     private readonly configService: ConfigService,
   ) {}
 
-  async validateUserByEmail(codeVerifyParam: string, userEmailParam: string) {
+  async validateUserByEmail(
+    codeVerifyParam: string,
+    userEmailParam: string,
+  ): Promise<boolean> {
     if (!codeVerifyParam || !userEmailParam) {
       throw new UnauthorizedException('Parâmetros inválidos.');
     }
@@ -53,6 +56,7 @@ export class AuthService {
         'Falha na autenticação. Tente novamente mais tarde.',
       );
     }
+    return true;
   }
 
   async buildEmail(email: string, userId: string): Promise<SendEmailDTO> {
@@ -115,7 +119,7 @@ export class AuthService {
       });
 
       const emailDataBuilded = await this.buildEmail(email, user.id);
-      this.emailService.sendEmail(emailDataBuilded);
+      await this.emailService.sendEmail(emailDataBuilded);
 
       throw new ForbiddenException(
         'Usuário não verificado. Por favor, verifique seu email.',
