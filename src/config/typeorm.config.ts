@@ -15,5 +15,4 @@ export const typeOrmConfig = (
   entities: [User, CodeVerify],
   timezone: configService.get('TIMEZONE'),
   synchronize: true,
-}
-);
+});

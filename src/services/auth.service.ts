@@ -15,7 +15,6 @@ import { SendEmailDTO } from '../common/dtos/send-email.dto';
 import { CodeVerifyService } from './code-verify.service';
 import { getRandomCode } from './utils/getRandomCodeVerify.util';
 import { ConfigService } from '@nestjs/config';
-import { use } from 'passport';
 
 @Injectable()
 export class AuthService {
@@ -38,7 +37,8 @@ export class AuthService {
       throw new UnauthorizedException('Dados de verificação inválidos.');
     }
 
-    if (user.isActive) throw new ConflictException('Usuário já está verificado');
+    if (user.isActive)
+      throw new ConflictException('Usuário já está verificado');
 
     const activedUser = await this.userService.update({
       ...user,
@@ -49,7 +49,9 @@ export class AuthService {
       (activedUser.affected && activedUser.affected > 0);
 
     if (!activedUserIsValid) {
-      throw new UnauthorizedException('Falha na autenticação. Tente novamente mais tarde.');
+      throw new UnauthorizedException(
+        'Falha na autenticação. Tente novamente mais tarde.',
+      );
     }
   }
 

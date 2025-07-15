@@ -22,7 +22,7 @@ import { CodeVerifyModule } from 'src/modules/code-verify.module';
     UserModule,
     AuthModule,
     EmailModule,
-    CodeVerifyModule
+    CodeVerifyModule,
   ],
   controllers: [AppController],
   providers: [AppService],

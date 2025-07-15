@@ -21,23 +21,23 @@ export class EmailService {
     return transporter;
   }
 
-	async sendEmail(dto: SendEmailDTO) {
-		const { recipients, subject, html } = dto;
+  async sendEmail(dto: SendEmailDTO) {
+    const { recipients, subject, html } = dto;
 
-		const transport = this.emailTransport();
+    const transport = this.emailTransport();
 
-		const options: nodemailer.SendMailOptions = {
-			from: this.configService.get<string>('EMAIL_EMAIL'),
-			to: recipients,
-			subject,
-			html,
-		};
+    const options: nodemailer.SendMailOptions = {
+      from: this.configService.get<string>('EMAIL_EMAIL'),
+      to: recipients,
+      subject,
+      html,
+    };
 
-		try {
-			await transport.sendMail(options);
-			console.log('Email enviado com sucesso');
-		} catch (error) {
-			console.error(`Erro ao enviar email: ${error}`)
-		}
-	}
+    try {
+      await transport.sendMail(options);
+      console.log('Email enviado com sucesso');
+    } catch (error) {
+      console.error(`Erro ao enviar email: ${error}`);
+    }
+  }
 }

@@ -1,4 +1,8 @@
-import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common';
 import { UserRepository } from '../repositories/user.repository';
 import { User } from '../entities/user/user.entity';
 import { CreateUserDto } from 'src/common/dtos/create-user.dto';
@@ -81,10 +85,9 @@ export class UserService {
   }
 
   async findAll(isActive: boolean): Promise<User[]> {
-
     if (typeof isActive != 'boolean') return this.userRepository.findAll();
 
-    return this.userRepository.findAllByIsActiveProperty(isActive);    
+    return this.userRepository.findAllByIsActiveProperty(isActive);
   }
 
   async findOne(id: string): Promise<User> {
@@ -101,8 +104,8 @@ export class UserService {
     return this.seedDummyUsers(numberOfDummyUsers);
   }
 
-  async update(userParam: User): Promise<UpdateResult>{
-    if(!userParam) throw new NotFoundException('Dados inválidos.')
+  async update(userParam: User): Promise<UpdateResult> {
+    if (!userParam) throw new NotFoundException('Dados inválidos.');
     const updatedUser = await this.userRepository.update(userParam);
     return updatedUser;
   }

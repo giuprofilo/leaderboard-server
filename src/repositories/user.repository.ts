@@ -43,8 +43,8 @@ export class UserRepository {
         username: 'ASC',
       },
       where: {
-        isActive
-      }
+        isActive,
+      },
     });
   }
 
@@ -61,7 +61,10 @@ export class UserRepository {
   }
 
   async update(userParam: User): Promise<UpdateResult> {
-    const updatedUser = await this.userRepository.update(userParam.id, userParam);
+    const updatedUser = await this.userRepository.update(
+      userParam.id,
+      userParam,
+    );
     return updatedUser;
   }
 }

@@ -5,12 +5,12 @@ import { EmailService } from 'src/services/email.service';
 
 @Controller('email')
 export class EmailController {
-	constructor(private readonly emailService: EmailService) {}
+  constructor(private readonly emailService: EmailService) {}
 
-	@UseGuards(AuthGuard('jwt'))
-	@Post('send')
-	async sendEmail(@Body() bodyEmail: SendEmailDTO) {
-		const sentEmail = await this.emailService.sendEmail(bodyEmail);
-		return sentEmail;
-	}
+  @UseGuards(AuthGuard('jwt'))
+  @Post('send')
+  async sendEmail(@Body() bodyEmail: SendEmailDTO) {
+    const sentEmail = await this.emailService.sendEmail(bodyEmail);
+    return sentEmail;
+  }
 }

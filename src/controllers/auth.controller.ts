@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
 import { LoginDto } from 'src/common/dtos/login.dto';
 
@@ -13,7 +13,10 @@ export class AuthController {
   }
 
   @Get('validateUserByEmail')
-  async validateUserByEmail(@Query('codeVerify') codeVerify: string, @Query('userEmail') userEmail: string) {
+  async validateUserByEmail(
+    @Query('codeVerify') codeVerify: string,
+    @Query('userEmail') userEmail: string,
+  ) {
     return this.authService.validateUserByEmail(codeVerify, userEmail);
   }
 }

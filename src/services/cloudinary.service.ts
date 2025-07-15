@@ -4,7 +4,6 @@ import { UploadApiResponse, v2 as cloudinary } from 'cloudinary';
 @Injectable()
 export class CloudinaryService {
   async uploadImage(file: Express.Multer.File): Promise<UploadApiResponse> {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     if (!file?.buffer) {
       throw new InternalServerErrorException('Invalid file upload');
     }
@@ -27,7 +26,6 @@ export class CloudinaryService {
         },
       );
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       uploadStream.end(file.buffer);
     });
   }

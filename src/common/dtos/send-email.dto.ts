@@ -1,20 +1,24 @@
-import { IsArray, IsEmail, IsNotEmpty, IsOptional, IsString } from "class-validator"
-
+import {
+  IsArray,
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class SendEmailDTO {
-
-	@IsString()
+  @IsString()
   @IsNotEmpty()
-	subject: string;
+  subject: string;
 
-	@IsArray()
+  @IsArray()
   @IsEmail({}, { each: true })
-	recipients: string[];
+  recipients: string[];
 
-	@IsString()
-	html: string;
+  @IsString()
+  html: string;
 
-	@IsOptional()
-	@IsString()
-	text?: string;
+  @IsOptional()
+  @IsString()
+  text?: string;
 }

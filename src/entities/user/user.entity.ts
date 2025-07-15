@@ -4,7 +4,7 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToOne
+  OneToOne,
 } from 'typeorm';
 import { CodeVerify } from './code-verify.entity';
 
@@ -43,6 +43,8 @@ export class User {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
-  @OneToOne(() => CodeVerify, (codeVerify) => codeVerify.user, { nullable: true })
+  @OneToOne(() => CodeVerify, (codeVerify) => codeVerify.user, {
+    nullable: true,
+  })
   verificationCode?: CodeVerify;
 }

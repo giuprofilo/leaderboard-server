@@ -6,27 +6,28 @@ import { CreateCodeVerifyDTO } from 'src/common/dtos/create-code-verify.dto';
 
 @Injectable()
 export class UserRepository {
-	constructor(
-		@Inject(CODE_VERIFY)
-		private readonly codeVerifyRepository: Repository<CodeVerify>
-	) {}
+  constructor(
+    @Inject(CODE_VERIFY)
+    private readonly codeVerifyRepository: Repository<CodeVerify>,
+  ) {}
 
-	async createCodeVerify(codeVerify: CreateCodeVerifyDTO): Promise<CodeVerify> {
-		return this.codeVerifyRepository.create(codeVerify);
-	}
+  async createCodeVerify(codeVerify: CreateCodeVerifyDTO): Promise<CodeVerify> {
+    const newCode = this.codeVerifyRepository.create(codeVerify);
+    return await this.codeVerifyRepository.save(newCode);
+  }
 
   async findById(id: string): Promise<CodeVerify | null> {
-    return await this.codeVerifyRepository.findOne({ where: { id } })
+    return await this.codeVerifyRepository.findOne({ where: { id } });
   }
 
   async findByUserId(userId: string): Promise<CodeVerify | null> {
-    return this.codeVerifyRepository.findOne({ 
+    return this.codeVerifyRepository.findOne({
       where: { user: { id: userId } },
-      relations: ['user']
+      relations: ['user'],
     });
   }
 
-	async removeCodeVerify(id: string): Promise<void> {
-		this.codeVerifyRepository.delete(id);
-	}
+  async removeCodeVerify(id: string): Promise<void> {
+    await this.codeVerifyRepository.delete(id);
+  }
 }

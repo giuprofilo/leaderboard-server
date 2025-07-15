@@ -1,11 +1,11 @@
 import {
   Entity,
-  Column, 
+  Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
   OneToOne,
-  JoinColumn
+  JoinColumn,
 } from 'typeorm';
 import { User } from './user.entity';
 
