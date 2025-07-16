@@ -67,4 +67,9 @@ export class UserRepository {
     );
     return updatedUser;
   }
+
+  async updatePoints(id: string, points: number): Promise<User> {
+    await this.userRepository.update(id, { points });
+    return this.findOne(id);
+  }
 }

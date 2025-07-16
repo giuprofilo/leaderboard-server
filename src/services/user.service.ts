@@ -98,6 +98,16 @@ export class UserService {
     await this.userRepository.remove(id);
   }
 
+  async updateUserPoints(id: string, points: number): Promise<User> {
+    const user = await this.userRepository.findOne(id);
+
+    if (!user) {
+      throw new BadRequestException('Usuário não encontrado');
+    }
+
+    return this.userRepository.updatePoints(id, points);
+  }
+
   async seedDummyUsers(
     numberOfDummyUsers: number | null,
   ): Promise<ISeedMessage> {
