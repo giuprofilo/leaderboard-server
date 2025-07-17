@@ -6,6 +6,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { typeOrmConfig } from 'src/config/typeorm.config';
 import { AuthModule } from 'src/modules/auth.module';
+import { EmailModule } from 'src/modules/email.module';
+import { CodeVerifyModule } from 'src/modules/code-verify.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -16,9 +19,10 @@ import { AuthModule } from 'src/modules/auth.module';
       useFactory: typeOrmConfig,
       inject: [ConfigService],
     }),
-
     UserModule,
     AuthModule,
+    EmailModule,
+    CodeVerifyModule,
   ],
   controllers: [AppController],
   providers: [AppService],

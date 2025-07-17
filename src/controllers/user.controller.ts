@@ -69,13 +69,13 @@ export class UserController {
   @UseGuards(AuthGuard('jwt'))
   @Get(':id')
   findOne(@Param('id') id: string): Promise<User> {
-    return this.userService.findOne(+id);
+    return this.userService.findOne(id);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
   remove(@Param('id') id: string): Promise<void> {
-    return this.userService.remove(+id);
+    return this.userService.remove(id);
   }
 
   @UseGuards(AuthGuard('jwt'))
@@ -85,7 +85,7 @@ export class UserController {
     @Body() updatePointsDto: UpdatePointsDto,
   ): Promise<User> {
     const userId = req.user.id;
-    return this.userService.updateUserPoints(+userId, updatePointsDto.points);
+    return this.userService.updateUserPoints(userId, updatePointsDto.points);
   }
 
   // @UseGuards(AuthGuard('jwt'))

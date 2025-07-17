@@ -1,4 +1,8 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common';
 import { UserRepository } from '../repositories/user.repository';
 import { User } from '../entities/user/user.entity';
 import { CreateUserDto } from 'src/common/dtos/create-user.dto';
@@ -6,6 +10,7 @@ import * as bcrypt from 'bcrypt';
 import { ISeedMessage } from 'src/common/interfaces/ISeedMessage.interface';
 import { CloudinaryService } from './cloudinary.service';
 import { getRandomNumber } from 'src/database/seeders/utils/createDummyUsers.util';
+import { UpdateResult } from 'typeorm';
 
 const SALT_ROUNDS = 10;
 const AVATAR_IMAGE =
@@ -69,6 +74,7 @@ export class UserService {
     const user = await this.userRepository.createUser({
       ...createUserDto,
       password: hashedPassword,
+      isActive: false,
     });
 
     return user;
@@ -84,15 +90,15 @@ export class UserService {
     return this.userRepository.findAllByIsActiveProperty(isActive);
   }
 
-  async findOne(id: number): Promise<User> {
+  async findOne(id: string): Promise<User> {
     return this.userRepository.findOne(id);
   }
 
-  async remove(id: number): Promise<void> {
+  async remove(id: string): Promise<void> {
     await this.userRepository.remove(id);
   }
 
-  async updateUserPoints(id: number, points: number): Promise<User> {
+  async updateUserPoints(id: string, points: number): Promise<User> {
     const user = await this.userRepository.findOne(id);
 
     if (!user) {
@@ -106,5 +112,11 @@ export class UserService {
     numberOfDummyUsers: number | null,
   ): Promise<ISeedMessage> {
     return this.seedDummyUsers(numberOfDummyUsers);
+  }
+
+  async update(userParam: User): Promise<UpdateResult> {
+    if (!userParam) throw new NotFoundException('Dados inválidos.');
+    const updatedUser = await this.userRepository.update(userParam);
+    return updatedUser;
   }
 }

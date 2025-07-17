@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { User } from '../entities/user/user.entity';
 import { USER_REPOSITORY } from 'src/database/providers/constants';
 
@@ -48,11 +48,11 @@ export class UserRepository {
     });
   }
 
-  async findOne(id: number): Promise<User> {
+  async findOne(id: string): Promise<User> {
     return this.userRepository.findOneOrFail({ where: { id } });
   }
 
-  async remove(id: number): Promise<void> {
+  async remove(id: string): Promise<void> {
     await this.userRepository.delete(id);
   }
 
@@ -60,7 +60,15 @@ export class UserRepository {
     return this.userRepository.count();
   }
 
-  async updatePoints(id: number, points: number): Promise<User> {
+  async update(userParam: User): Promise<UpdateResult> {
+    const updatedUser = await this.userRepository.update(
+      userParam.id,
+      userParam,
+    );
+    return updatedUser;
+  }
+
+  async updatePoints(id: string, points: number): Promise<User> {
     await this.userRepository.update(id, { points });
     return this.findOne(id);
   }
