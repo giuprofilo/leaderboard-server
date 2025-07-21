@@ -11,6 +11,7 @@ import { AuthController } from 'src/controllers/auth.controller';
 import { JwtStrategy } from 'src/auth/strategies/jwt.strategy';
 import { EmailModule } from './email.module';
 import { CodeVerifyModule } from './code-verify.module';
+import googleOauthConfig from 'src/config/google-oauth.config';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { CodeVerifyModule } from './code-verify.module';
       useFactory: jwtConfig,
     }),
     TypeOrmModule.forFeature([User]),
+    ConfigModule.forFeature(googleOauthConfig),
     UserModule,
     EmailModule,
     CodeVerifyModule,
