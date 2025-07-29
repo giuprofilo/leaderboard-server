@@ -12,6 +12,7 @@ import { JwtStrategy } from 'src/auth/strategies/jwt.strategy';
 import { EmailModule } from './email.module';
 import { CodeVerifyModule } from './code-verify.module';
 import googleOauthConfig from 'src/config/google-oauth.config';
+import { GoogleStrategy } from 'src/auth/strategies/google.strategy';
 
 @Module({
   imports: [
@@ -29,7 +30,7 @@ import googleOauthConfig from 'src/config/google-oauth.config';
     CodeVerifyModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, GoogleStrategy],
   exports: [AuthService],
 })
 export class AuthModule {}

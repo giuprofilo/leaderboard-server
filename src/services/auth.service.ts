@@ -15,6 +15,7 @@ import { SendEmailDTO } from '../common/dtos/send-email.dto';
 import { CodeVerifyService } from './code-verify.service';
 import { getRandomCode } from './utils/getRandomCodeVerify.util';
 import { ConfigService } from '@nestjs/config';
+import { CreateUserDto } from 'src/common/dtos/create-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -105,9 +106,15 @@ export class AuthService {
 
   async getValidUser(email: string, password: string): Promise<User> {
     const user = await this.userService.findByEmail(email);
-
-    if (!user || !(await bcrypt.compare(password, user.password))) {
+    if (!user) {
       throw new UnauthorizedException('Email ou senha incorretos');
+    }
+
+    if (!user.isOAuthUser) {
+      const passwordIsValid = await bcrypt.compare(password, user.password);
+      if (!passwordIsValid) {
+        throw new UnauthorizedException('Email ou senha incorretos');
+      }
     }
 
     if (!user?.isActive) {
@@ -135,5 +142,26 @@ export class AuthService {
     const token = this.jwtService.sign(payload);
 
     return { access_token: token };
+  }
+
+  async loginByGoogle(email: string) {
+    const user = await this.userService.findByEmail(email);
+
+    if (user === undefined) {
+      throw new UnauthorizedException('Credenciais de usuário inválidas');
+    }
+
+    const validUser = await this.getValidUser(user.email, user.password);
+    const payload = { sub: validUser.id, email: validUser.email };
+    const token = this.jwtService.sign(payload);
+
+    return { access_token: token };
+  }
+
+  async validateGoogleUser(googleUserParam: CreateUserDto) {
+    const user = await this.userService.findByEmail(googleUserParam.email);
+    if (user) return user;
+
+    return await this.userService.createUser(googleUserParam);
   }
 }
