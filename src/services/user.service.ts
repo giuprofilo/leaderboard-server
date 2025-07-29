@@ -46,7 +46,7 @@ export class UserService {
   }
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {
-    const { email, password, username } = createUserDto;
+    const { email, password, username, isActive } = createUserDto;
 
     if (!email || !password) {
       throw new BadRequestException('Por favor, envie um email e uma senha.');
@@ -74,7 +74,7 @@ export class UserService {
     const user = await this.userRepository.createUser({
       ...createUserDto,
       password: hashedPassword,
-      isActive: false,
+      isActive: !isActive ? false : isActive,
     });
 
     return user;

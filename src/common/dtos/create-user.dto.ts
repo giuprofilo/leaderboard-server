@@ -44,4 +44,7 @@ export class CreateUserDto {
 
   @IsOptional()
   avatar?: string;
+
+  @IsBoolean()
+  isOAuthUser: boolean;
 }

@@ -47,4 +47,7 @@ export class User {
     nullable: true,
   })
   verificationCode?: CodeVerify;
+
+  @Column()
+  isOAuthUser: boolean;
 }
